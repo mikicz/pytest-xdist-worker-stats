@@ -19,6 +19,8 @@ classifiers = [
     "Framework :: Pytest",
 ]
 include = ["LICENSE"]
+repository = "https://github.com/mikicz/pytest-xdist-worker-stats"
+keywords = ["pytest", "xdist", "pytest-xdist"]
 
 [tool.poetry.plugins."pytest11"]
 pytest-xdist-worker-stats = "pytest_xdist_worker_stats"
