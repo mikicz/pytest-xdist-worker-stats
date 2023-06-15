@@ -41,18 +41,18 @@ class XdistWorkerStatsPlugin:
         tr = terminalreporter
         if self.worker_test_times and len(self.worker_test_times) > 1:
             tr._tw.sep("=", "Worker statistics", yellow=True)
-            workers = sorted(self.worker_test_times.keys())
+            workers = sorted(self.worker_test_times.keys(), key=lambda x: int(x.lstrip("gw")))
 
             for worker in workers:
                 worker_times = self.worker_test_times[worker]
-                tr._tw.line(f"worker {worker}, {len(worker_times)} tests, {sum(worker_times):.2f}s total")
+                tr._tw.line(f"worker {worker: <5}: {len(worker_times): >4} tests {sum(worker_times):10.2f}s runtime")
 
     def pytest_testnodedown(self, node, error):
         """
         Get statistic about worker usage for test cases from xdist nodes and merge to primary stats.
         """
-        node_worker_stats = node.workeroutput[SHARED_WORKER_INFO]
-        self.worker_test_times.update(dict(node_worker_stats))
+        if (node_worker_stats := node.workeroutput.get(SHARED_WORKER_INFO)) is not None:
+            self.worker_test_times.update(dict(node_worker_stats))
 
     @pytest.hookimpl(hookwrapper=True, trylast=True)
     def pytest_sessionfinish(self, session, exitstatus):
