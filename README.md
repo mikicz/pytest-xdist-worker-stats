@@ -39,12 +39,11 @@ worker gw11 :   47 tests       5.59s runtime
 
 ## Development
 
-[Poetry](https://python-poetry.org/) (dependencies) and [pre-commit](https://pre-commit.com/) (coding standards) are required for development. Ther are some tests, obviously written in [pytest](https://pytest.org/).
+[Poetry](https://python-poetry.org/) (dependencies) and [pre-commit](https://pre-commit.com/) (coding standards) are required for development.
 
 ```shell
 $ poetry install
 $ pre-commit install
-$ pytest tests
 ```
 
 ## Thanks
@@ -53,6 +52,6 @@ Many thanks to [Denys Korytkin](https://github.com/DKorytkin) for the article [H
 
 ## Changelog
 
-### 0.1.0 (Jun 15, 2023)
+### 0.1.1 (Jun 15, 2023)
 
 * First Release
