@@ -9,12 +9,8 @@ SHARED_WORKER_INFO = "worker_info"
 class XdistWorkerStatsPlugin:
     def __init__(self, config):
         self.config = config
-        self.is_primary = self.is_primary()
         self.test_stats = {}
         self.worker_test_times = {}
-
-    def is_primary(self):
-        return not hasattr(self.config, "workerinput")
 
     def add(self, name):
         self.test_stats[name] = self.test_stats.get(name) or {}
@@ -51,7 +47,10 @@ class XdistWorkerStatsPlugin:
         """
         Get statistic about worker usage for test cases from xdist nodes and merge to primary stats.
         """
-        if (node_worker_stats := node.workeroutput.get(SHARED_WORKER_INFO)) is not None:
+        if (
+            hasattr(node, "workeroutput")
+            and (node_worker_stats := node.workeroutput.get(SHARED_WORKER_INFO)) is not None
+        ):
             self.worker_test_times.update(dict(node_worker_stats))
 
     @pytest.hookimpl(hookwrapper=True, trylast=True)
@@ -61,5 +60,5 @@ class XdistWorkerStatsPlugin:
         Executed once per node if with xdist and will gen from primary node.
         """
         yield
-        if not self.is_primary:
+        if hasattr(self.config, "workeroutput"):
             self.config.workeroutput[SHARED_WORKER_INFO] = self.worker_test_times
