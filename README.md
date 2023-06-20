@@ -1,6 +1,6 @@
 # pytest-xdist-worker-stats
 
-A pytest plugin
+A pytest plugin to list worker statistics after a xdist run.
 
 ## Installation
 
