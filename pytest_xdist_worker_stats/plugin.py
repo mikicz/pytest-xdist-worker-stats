@@ -1,9 +1,19 @@
 import os
 import time
+from typing import NamedTuple
 
 import pytest
 
 SHARED_WORKER_INFO = "worker_info"
+
+
+class RunStatistics(NamedTuple):
+    mininum_tests: int
+    maximum_tests: int
+    average_tests: float
+    mininum_runtime: float
+    maximum_runtime: float
+    average_runtime: float
 
 
 class XdistWorkerStatsPlugin:
@@ -30,6 +40,20 @@ class XdistWorkerStatsPlugin:
 
         self.worker_test_times[worker].append(self.add(item.nodeid)["diff"])
 
+    def get_statistics(self) -> RunStatistics:
+        workers = self.worker_test_times.keys()
+        tests = [len(self.worker_test_times[worker]) for worker in workers]
+        runtimes = [sum(self.worker_test_times[worker]) for worker in workers]
+
+        return RunStatistics(
+            mininum_tests=min(tests),
+            maximum_tests=max(tests),
+            average_tests=sum(tests) / len(tests),
+            mininum_runtime=min(runtimes),
+            maximum_runtime=max(runtimes),
+            average_runtime=sum(runtimes) / len(runtimes),
+        )
+
     def pytest_terminal_summary(self, terminalreporter):
         """
         If there's multiple workers, report on number of tests and total runtime.
@@ -38,10 +62,23 @@ class XdistWorkerStatsPlugin:
         if self.worker_test_times and len(self.worker_test_times) > 1:
             tr._tw.sep("=", "Worker statistics", yellow=True)
             workers = sorted(self.worker_test_times.keys(), key=lambda x: int(x.lstrip("gw")))
+            statistics = self.get_statistics()
 
             for worker in workers:
                 worker_times = self.worker_test_times[worker]
                 tr._tw.line(f"worker {worker: <5}: {len(worker_times): >4} tests {sum(worker_times):10.2f}s runtime")
+
+            tr._tw.line("")
+            tr._tw.line(
+                f"Tests   : min {statistics.mininum_tests: >8}, "
+                f"max {statistics.maximum_tests: >8}, "
+                f"average {statistics.average_tests:.1f}"
+            )
+            tr._tw.line(
+                f"Runtime : min {statistics.mininum_runtime:7.2f}s, "
+                f"max {statistics.maximum_runtime:7.2f}s, "
+                f"average {statistics.average_runtime:.2f}s"
+            )
 
     def pytest_testnodedown(self, node, error):
         """

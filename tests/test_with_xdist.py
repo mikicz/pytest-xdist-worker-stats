@@ -23,3 +23,11 @@ def test_default(pytester, sample_testfile):
         ],
         consecutive=True,
     )
+
+    result.stdout.fnmatch_lines(
+        [
+            "Tests   : min        1, max        1, average 1.0",
+            "Runtime : min    0.00s, max    0.00s, average 0.00s",
+        ],
+        consecutive=True,
+    )
