@@ -56,6 +56,18 @@ Many thanks to [Denys Korytkin](https://github.com/DKorytkin) for the article [H
 
 ## Changelog
 
+### 0.1.4 (Aug 8, 2023)
+
+* Summarize statistics
+
+### 0.1.3 (Aug 8, 2023)
+
+* Add CI
+
+### 0.1.2 (Jun 19, 2023)
+
+* Fix several issues
+
 ### 0.1.1 (Jun 15, 2023)
 
 * First Release
