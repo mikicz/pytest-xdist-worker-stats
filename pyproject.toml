@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "pytest-xdist-worker-stats"
-version = "0.1.4"
+version = "0.1.5"
 description = "A pytest plugin to list worker statistics after a xdist run."
 authors = ["Mikuláš Poul <mikulaspoul@gmail.com>"]
 license = "MIT"
@@ -27,7 +27,7 @@ pytest-xdist-worker-stats = "pytest_xdist_worker_stats"
 
 [tool.poetry.dependencies]
 python = ">3.9"
-pytest = "^7.3"
+pytest = ">7.3.2"
 pytest-xdist = "^3.3"
 
 [tool.poetry.group.dev.dependencies]
