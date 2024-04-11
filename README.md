@@ -43,11 +43,12 @@ Runtime : min   11.66s, max   12.59s, average 12.10s
 
 ## Development
 
-[Poetry](https://python-poetry.org/) (dependencies) and [pre-commit](https://pre-commit.com/) (coding standards) are required for development.
+[Poetry](https://python-poetry.org/) is required for development.
 
 ```shell
-$ poetry install
-$ pre-commit install
+$ poetry install --with dev
+$ poetry run pre-commit install
+$ poetry shell
 ```
 
 ## Thanks
