@@ -1,24 +1,30 @@
-from typing import TYPE_CHECKING, NoReturn
-
-if TYPE_CHECKING:
-    from _pytest.config import Config, PytestPluginManager
-    from _pytest.config.argparsing import Parser
+import pytest
 
 
-def pytest_addoption(parser: "Parser", pluginmanager: "PytestPluginManager") -> NoReturn:
-    group = parser.getgroup("pytest-unused-fixtures")
-    group.addoption("--unused-fixtures", action="store_true", default=False, help="Try to identify unused fixtures.")
+def pytest_addoption(parser: pytest.Parser):
+    from pytest_xdist_worker_stats.plugin import (
+        ARGPARSE_PARSER_GROUP,
+        ARGPARSE_REPORT_TEST_BREAKDOWN_OPTION_NAME,
+        ARGPARSE_REPORT_WORKER_RUNTIMES_OPTION_NAME,
+    )
+
+    group = parser.getgroup(ARGPARSE_PARSER_GROUP)
     group.addoption(
-        "--unused-fixtures-ignore-path",
-        metavar="PATH",
-        type=str,
-        default=None,
-        action="append",
-        help="Ignore fixtures in PATHs from unused fixtures report.",
+        "--no-xdist-runtimes",
+        action="store_false",
+        default=True,
+        dest=ARGPARSE_REPORT_WORKER_RUNTIMES_OPTION_NAME,
+        help="Do not report runtimes per 'xdist' worker.",
+    )
+    group.addoption(
+        "--xdist-breakdown",
+        action="store_true",
+        dest=ARGPARSE_REPORT_TEST_BREAKDOWN_OPTION_NAME,
+        help="Display test breakdown per 'xdist' worker.",
     )
 
 
-def pytest_configure(config: "Config") -> NoReturn:
+def pytest_configure(config: pytest.Config):
     pluginmanager = config.pluginmanager
     if pluginmanager.hasplugin("xdist"):
         from pytest_xdist_worker_stats.plugin import XdistWorkerStatsPlugin
