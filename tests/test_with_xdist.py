@@ -1,33 +1,48 @@
-import pytest
-
-
-@pytest.fixture
-def sample_testfile(pytester):
-    code = """
-def test_foo():
-    pass
-def test_bar():
-    pass
-    """
-    pytester.makepyfile(code)
+from conftest import (
+    expected_breakdown_lines,
+    expected_header_lines,
+    expected_runtime_lines,
+    expected_statistics_lines,
+)
 
 
 def test_default(pytester, sample_testfile):
     result = pytester.runpytest("-n", "2")
-    result.assert_outcomes(passed=2)
+    result.assert_outcomes(passed=4)
     result.stdout.fnmatch_lines(
         [
-            "*Worker statistics*",
-            "worker gw0  :    1 tests       0.00s runtime",
-            "worker gw1  :    1 tests       0.00s runtime",
+            *expected_header_lines,
+            *expected_runtime_lines,
+            "",
+            *expected_statistics_lines,
         ],
         consecutive=True,
     )
 
+
+def test_no_runtimes(pytester, sample_testfile):
+    result = pytester.runpytest("-n", "2", "--no-xdist-runtimes")
+    result.assert_outcomes(passed=4)
     result.stdout.fnmatch_lines(
         [
-            "Tests   : min        1, max        1, average 1.0",
-            "Runtime : min    0.00s, max    0.00s, average 0.00s",
+            *expected_header_lines,
+            *expected_statistics_lines,
+        ],
+        consecutive=True,
+    )
+    for line in expected_runtime_lines:
+        result.stdout.no_fnmatch_line(line)
+
+
+def test_breakdown(pytester, sample_testfile):
+    result = pytester.runpytest("-n", "2", "--xdist-breakdown")
+    result.assert_outcomes(passed=4)
+    result.stdout.fnmatch_lines(
+        [
+            *expected_header_lines,
+            *expected_breakdown_lines,
+            "",
+            *expected_statistics_lines,
         ],
         consecutive=True,
     )

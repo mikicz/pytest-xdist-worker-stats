@@ -12,33 +12,74 @@ $ pip install pytest-xdist-worker-stats
 
 All that is needed is to have xdist installed & enabled, and to run tests in multiple workers.
 
-## Example output
+### Default mode
+
+```shell
+pytest {all_your_options}
+```
 
 ```text
-platform linux -- Python 3.10.11, pytest-7.3.2, pluggy-1.0.0
-plugins: xdist-3.3.1, xdist-worker-stats-0.1.0
-12 workers [359 items]
-.............................................................................................. [ 25%]
-.............................................................................................. [ 52%]
-.............................................................................................. [ 78%]
-.............................................................................                  [100%]
-========================================= Worker statistics ==========================================
-worker gw0  :   15 tests      12.25s runtime
-worker gw1  :   14 tests      12.00s runtime
-worker gw2  :   27 tests      11.66s runtime
-worker gw3  :   13 tests      12.08s runtime
-worker gw4  :   14 tests      12.59s runtime
-worker gw5  :   27 tests      12.13s runtime
-worker gw6  :   18 tests      12.22s runtime
-worker gw7  :   78 tests      12.04s runtime
-worker gw8  :   21 tests      12.01s runtime
-worker gw9  :   59 tests      12.36s runtime
-worker gw10 :   20 tests      11.79s runtime
-worker gw11 :   53 tests      12.09s runtime
+============================= test session starts ==============================
+platform linux -- Python 3.10.7, pytest-8.1.1, pluggy-1.4.0
+plugins: xdist-worker-stats-0.1.7, xdist-3.5.0
+created: 2/2 workers
+2 workers [4 items]
 
-Tests   : min       13, max       78, average 29.9
-Runtime : min   11.66s, max   12.59s, average 12.10s
-======================================== 359 passed in 21.52s ========================================
+....                                                                     [100%]
+============================== Worker statistics ===============================
+worker gw0  :    2 tests       0.00s runtime
+worker gw1  :    2 tests       0.00s runtime
+
+Tests   : min        2, max        2, average 2.0
+Runtime : min    0.00s, max    0.00s, average 0.00s
+============================== 4 passed in 1.82s ===============================
+```
+
+### Summary mode
+
+```shell
+pytest {all_your_options} --no-xdist-runtimes
+```
+
+```text
+============================= test session starts ==============================
+platform linux -- Python 3.10.7, pytest-8.1.1, pluggy-1.4.0
+plugins: xdist-worker-stats-0.1.7, xdist-3.5.0
+created: 2/2 workers
+2 workers [4 items]
+
+....                                                                     [100%]
+============================== Worker statistics ===============================
+Tests   : min        2, max        2, average 2.0
+Runtime : min    0.00s, max    0.00s, average 0.00s
+============================== 4 passed in 1.82s ===============================
+```
+
+### Breakdown mode
+
+```shell
+pytest {all_your_options} --xdist-breakdown
+```
+
+```text
+============================= test session starts ==============================
+platform linux -- Python 3.10.7, pytest-8.1.1, pluggy-1.4.0
+plugins: xdist-worker-stats-0.1.7, xdist-3.5.0
+created: 2/2 workers
+2 workers [4 items]
+
+....                                                                     [100%]
+============================== Worker statistics ===============================
+worker gw0  :    2 tests       0.00s runtime
+    test_plugin.py::test_bar[1]
+    test_plugin.py::test_foo
+worker gw1  :    2 tests       0.00s runtime
+    test_plugin.py::test_bar[2]
+    test_plugin.py::test_bar[3]
+
+Tests   : min        2, max        2, average 2.0
+Runtime : min    0.00s, max    0.00s, average 0.00s
+============================== 4 passed in 1.82s ===============================
 ```
 
 ## Development
