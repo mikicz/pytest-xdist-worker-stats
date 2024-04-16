@@ -29,8 +29,8 @@ pytest-xdist-worker-stats = "pytest_xdist_worker_stats"
 
 [tool.poetry.dependencies]
 python = ">=3.8"
-pytest = ">7.3.2"
-pytest-xdist = "^3.3"
+pytest = ">=7.0.0"
+pytest-xdist = ">=3"
 
 [tool.poetry.group.dev.dependencies]
 black = "^23.9.1"
