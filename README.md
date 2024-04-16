@@ -21,7 +21,7 @@ pytest {all_your_options}
 ```text
 ============================= test session starts ==============================
 platform linux -- Python 3.10.7, pytest-8.1.1, pluggy-1.4.0
-plugins: xdist-worker-stats-0.1.7, xdist-3.5.0
+plugins: xdist-worker-stats-0.2.0, xdist-3.5.0
 created: 2/2 workers
 2 workers [4 items]
 
@@ -44,7 +44,7 @@ pytest {all_your_options} --no-xdist-runtimes
 ```text
 ============================= test session starts ==============================
 platform linux -- Python 3.10.7, pytest-8.1.1, pluggy-1.4.0
-plugins: xdist-worker-stats-0.1.7, xdist-3.5.0
+plugins: xdist-worker-stats-0.2.0, xdist-3.5.0
 created: 2/2 workers
 2 workers [4 items]
 
@@ -64,7 +64,7 @@ pytest {all_your_options} --xdist-breakdown
 ```text
 ============================= test session starts ==============================
 platform linux -- Python 3.10.7, pytest-8.1.1, pluggy-1.4.0
-plugins: xdist-worker-stats-0.1.7, xdist-3.5.0
+plugins: xdist-worker-stats-0.2.0, xdist-3.5.0
 created: 2/2 workers
 2 workers [4 items]
 
