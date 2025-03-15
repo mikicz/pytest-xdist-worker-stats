@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "pytest-xdist-worker-stats"
-version = "0.2.0"
+version = "0.3.0"
 description = "A pytest plugin to list worker statistics after a xdist run."
 authors = ["Mikuláš Poul <mikulaspoul@gmail.com>"]
 license = "MIT"
@@ -13,11 +13,11 @@ classifiers = [
     "Topic :: Software Development :: Testing",
     "Operating System :: OS Independent",
     "Programming Language :: Python :: 3",
-    "Programming Language :: Python :: 3.8",
     "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
     "Framework :: Pytest",
 ]
 include = ["LICENSE"]
@@ -28,34 +28,22 @@ keywords = ["pytest", "xdist", "pytest-xdist"]
 pytest-xdist-worker-stats = "pytest_xdist_worker_stats"
 
 [tool.poetry.dependencies]
-python = ">=3.8"
+python = ">=3.9"
 pytest = ">=7.0.0"
 pytest-xdist = ">=3"
 
 [tool.poetry.group.dev.dependencies]
-black = "^23.9.1"
-ruff = "^0.0.291"
+ruff = "^0.11.0"
 
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
 
-[tool.black]
-line-length = 120
-target_version = ['py38', 'py39', 'py310', 'py311', 'py312']
-include = '\.pyi?$'
-exclude = '''
-(
-  /(
-      \.git         # exclude a few common directories in the
-    | \.tox         # root of the project
-    | venv
-  )/
-)
-'''
-
-
 [tool.ruff]
+line-length = 120
+target-version = "py39"
+
+[tool.ruff.lint]
 select = [
     # https://github.com/charliermarsh/ruff#pyflakes-f
     "F",
@@ -84,13 +72,9 @@ select = [
     "SIM",
 ]
 
-line-length = 120
-target-version = "py38"
-
 # Never enforce...
 ignore = [
     "E501",   # line length violations
-    "PT004",  # missing-fixture-name-underscore
     "SIM108", # use-ternary-operator
     "RET505", # superfluous-else-return
     "RET506", # superfluous-else-raise
@@ -99,7 +83,7 @@ ignore = [
     "B027",   # empty-method-without-abstract-decorator
 ]
 
-[tool.ruff.flake8-pytest-style]
+[tool.ruff.lint.flake8-pytest-style]
 fixture-parentheses = false
 mark-parentheses = false
 parametrize-names-type = "list"

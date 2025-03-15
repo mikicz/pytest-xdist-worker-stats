@@ -97,6 +97,15 @@ Many thanks to [Denys Korytkin](https://github.com/DKorytkin) for the article [H
 
 ## Changelog
 
+### 0.3.0  (March 15, 2025)
+
+* Remove support for Python 3.8, add support for 3.13
+
+### 0.2.0  (Apr 16, 2024)
+
+* Support all modern pytest and pytest-xdist
+* Add support for test breakdown per worker
+
 ### 0.1.4 (Aug 8, 2023)
 
 * Summarize statistics
