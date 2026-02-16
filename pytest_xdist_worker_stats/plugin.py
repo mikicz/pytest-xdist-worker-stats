@@ -34,12 +34,12 @@ class XdistWorkerStatsPlugin:
         return self.test_stats[name]
 
     def pytest_runtest_setup(self, item):
-        self.add(item.nodeid)["start"] = time.time()
+        self.add(item.nodeid)["start"] = time.monotonic()
 
     @pytest.hookimpl(hookwrapper=True)
     def pytest_runtest_call(self, item):
         yield
-        runtime = time.time() - self.add(item.nodeid)["start"]
+        runtime = time.monotonic() - self.add(item.nodeid)["start"]
         self.add(item.nodeid)["runtime"] = runtime
 
         if (worker := os.environ.get("PYTEST_XDIST_WORKER", "primary")) not in self.worker_stats:
