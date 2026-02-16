@@ -97,6 +97,15 @@ Many thanks to [Denys Korytkin](https://github.com/DKorytkin) for the article [H
 
 ## Changelog
 
+### 0.4.0  (November 10, 2025)
+
+* Support Pytest 9
+* Use `time.monotonic()` instead of `time.time()`
+
+### 0.3.1  (November 10, 2025)
+
+* Support Python 3.14
+
 ### 0.3.0  (March 15, 2025)
 
 * Remove support for Python 3.8, add support for 3.13
